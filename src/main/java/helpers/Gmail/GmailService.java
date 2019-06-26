@@ -1,6 +1,5 @@
 package helpers.Gmail;
 
-import _base.Constant;
 import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.extensions.java6.auth.oauth2.AuthorizationCodeInstalledApp;
 import com.google.api.client.extensions.jetty.auth.oauth2.LocalServerReceiver;
@@ -13,6 +12,7 @@ import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.client.util.store.FileDataStoreFactory;
 import com.google.api.services.gmail.Gmail;
 import com.google.api.services.gmail.GmailScopes;
+import helpers.test_data.GmailInfo;
 
 import java.io.*;
 import java.security.GeneralSecurityException;
@@ -25,12 +25,17 @@ public class GmailService {
     private static final JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
     private static final String tokenDirectoryPath = "tokens";
     private static final List<String> scope = Collections.singletonList(GmailScopes.GMAIL_SEND);
-    private static final String credentialsFilePath = Constant.ROOT_DIR+"/src/main/resources/gmail_api_credential/credentials.json";
+    private static String credentialsFilePath = null;
     private static Gmail service;
+
+    public GmailService(String user_email){
+        GmailInfo gmailInfo = new GmailInfo();
+        credentialsFilePath = gmailInfo.getCredentialsFilePath(user_email);
+    }
 
     private Credential loadCredential(final NetHttpTransport HTTP_TRANSPORT) throws IOException {
 
-        File initialFile = new File( credentialsFilePath);
+        File initialFile = new File(credentialsFilePath);
         InputStream inputStream = new FileInputStream(initialFile);
         GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(jsonFactory, new InputStreamReader(inputStream));
 
