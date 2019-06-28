@@ -45,7 +45,7 @@ public class EmailReceiverActions extends BaseActions {
     }
 
     private String getAttachments(Gmail service, String userId, String messageId)
-                                                            throws IOException {
+            throws IOException {
         String filename = null;
         Message message = service.users().messages().get(userId, messageId).execute();
         List<MessagePart> parts = message.getPayload().getParts();
@@ -60,7 +60,7 @@ public class EmailReceiverActions extends BaseActions {
                 byte[] fileByteArray = base64Url.decodeBase64(attachPart.getData());
 
                 File directory = new File(DOWNLOAD_ATTACHMENT_FOLDER);
-                if (! directory.exists()){
+                if (!directory.exists()) {
                     directory.mkdir();
                 }
 
@@ -111,7 +111,7 @@ public class EmailReceiverActions extends BaseActions {
                 String emailContent = getEmailBody(emailId);
 
                 File file1 = new File(DOWNLOAD_ATTACHMENT_FOLDER
-                                    + getAttachments(gmailService, sender, emailId));
+                        + getAttachments(gmailService, sender, emailId));
                 File file2 = new File(IMAGE_FOLDER + ImageFileName);
 
                 if (emailContent.contains("From: " + sender)

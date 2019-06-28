@@ -24,8 +24,8 @@ public class SendingGmailWithImageSteps extends BaseSteps {
                                      String senderName,
                                      String receiverName,
                                      String Title) throws GeneralSecurityException,
-                                                            MessagingException,
-                                                            IOException {
+            MessagingException,
+            IOException {
 
         this.senderEmail = senderEmail;
         this.receiverEmail = receiverEmail;
@@ -50,10 +50,10 @@ public class SendingGmailWithImageSteps extends BaseSteps {
     @Then("^(.*?) received the right email$")
     public void receiverGetTheRightEmail(String receiver) throws IOException {
         Assert.assertTrue(emailReceiverActions.userSeeTheRightMail(receiver,
-                                                                    this.senderEmail,
-                                                                    this.Title,
-                                                                    sendMailActions.createMessageBody
-                                                                            (this.senderName, this.receiverName)));
+                this.senderEmail,
+                this.Title,
+                sendMailActions.createMessageBody
+                        (this.senderName, this.receiverName)));
 
     }
 }

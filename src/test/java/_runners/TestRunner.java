@@ -10,7 +10,7 @@ import org.testng.annotations.Test;
         plugin = {"pretty", "com.vimalselvam.cucumber.listener.ExtentCucumberFormatter:target/Gmail-reports/report.html"},
         glue = "step_definitions")
 
-public class TestRunner  {
+public class TestRunner {
     @Test()
     public void scenario() {
         new TestNGCucumberRunner(getClass()).runCukes();

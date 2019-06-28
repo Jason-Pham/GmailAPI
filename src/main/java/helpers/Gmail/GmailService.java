@@ -28,7 +28,7 @@ public class GmailService {
     private static String credentialsFilePath = null;
     private static Gmail service;
 
-    public GmailService(String user_email){
+    public GmailService(String user_email) {
         GmailInfo gmailInfo = new GmailInfo();
         credentialsFilePath = gmailInfo.getCredentialsFilePath(user_email);
     }

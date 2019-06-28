@@ -15,5 +15,4 @@ public interface Constant {
             + SEPARATOR + "resources"
             + SEPARATOR + "images"
             + SEPARATOR;
-
 }
