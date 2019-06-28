@@ -24,7 +24,7 @@ public class GmailService {
     private static final String applicationName = "Gmail API";
     private static final JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
     private static final String tokenDirectoryPath = "tokens";
-    private static final List<String> scope = Collections.singletonList(GmailScopes.GMAIL_SEND);
+    private static final List<String> scope = Collections.singletonList(GmailScopes.MAIL_GOOGLE_COM);
     private static String credentialsFilePath = null;
     private static Gmail service;
 

@@ -34,7 +34,10 @@ public class SendMailActions extends BaseActions {
 
     private File getRandomImage() {
         File[] fileList = Utils.getFileList();
-        return fileList[new Random().nextInt(fileList.length - 1)];
+        File chosenFile = fileList[new Random().nextInt(fileList.length - 1)];
+        ImageFileName = chosenFile.getName();
+
+        return chosenFile;
     }
 
     private MimeMessage prepareMessage(String senderEmail,
@@ -50,8 +53,8 @@ public class SendMailActions extends BaseActions {
                 getRandomImage());
     }
 
-    private String createMessageBody(String senderName,
-                                     String receiverName){
+    public static String createMessageBody(String senderName,
+                                           String receiverName){
         return Greetings + COMMA_AND_SPACE + receiverName
                 + NEXT_LINE
                 + NEXT_LINE
