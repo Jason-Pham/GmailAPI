@@ -3,6 +3,10 @@ package helpers.Gmail;
 import com.google.api.client.util.Base64;
 import com.google.api.services.gmail.Gmail;
 import com.google.api.services.gmail.model.Message;
+import com.google.api.services.gmail.model.MessagePart;
+import com.google.api.services.gmail.model.MessagePartBody;
+import com.google.common.io.BaseEncoding;
+import org.testng.Assert;
 
 import javax.activation.DataHandler;
 import javax.activation.DataSource;
@@ -16,28 +20,15 @@ import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.util.List;
 import java.util.Properties;
 
+import static _base.Constant.DOWNLOAD_ATTACHMENT_FOLDER;
+
 public class GmailUtils {
-
-    public static MimeMessage createEmail(String to,
-                                          String from,
-                                          String subject,
-                                          String bodyText)
-            throws MessagingException {
-        Properties props = new Properties();
-        Session session = Session.getDefaultInstance(props, null);
-
-        MimeMessage email = new MimeMessage(session);
-
-        email.setFrom(new InternetAddress(from));
-        email.addRecipient(javax.mail.Message.RecipientType.TO,
-                new InternetAddress(to));
-        email.setSubject(subject);
-        email.setText(bodyText);
-        return email;
-    }
 
     private static Message createMessageWithEmail(MimeMessage emailContent)
             throws MessagingException, IOException {
@@ -95,5 +86,39 @@ public class GmailUtils {
         email.setContent(multipart);
 
         return email;
+    }
+
+    public static String getAttachments(Gmail service, String userId, String messageId)
+            throws IOException {
+        String filename = null;
+        Message message = service.users().messages().get(userId, messageId).execute();
+        List<MessagePart> parts = message.getPayload().getParts();
+        for (MessagePart part : parts) {
+            if (part.getFilename() != null && part.getFilename().length() > 0) {
+                filename = part.getFilename();
+                String attId = part.getBody().getAttachmentId();
+                MessagePartBody attachPart = service.users().messages().attachments().
+                        get(userId, messageId, attId).execute();
+
+                org.apache.commons.codec.binary.Base64 base64Url = new org.apache.commons.codec.binary.Base64(true);
+                byte[] fileByteArray = org.apache.commons.codec.binary.Base64.decodeBase64(attachPart.getData());
+
+                File directory = new File(DOWNLOAD_ATTACHMENT_FOLDER);
+                if (!directory.exists()) {
+                    Assert.assertTrue(directory.mkdir());
+                }
+
+                FileOutputStream fileOutFile =
+                        new FileOutputStream(DOWNLOAD_ATTACHMENT_FOLDER + filename);
+                fileOutFile.write(fileByteArray);
+                fileOutFile.close();
+            }
+        }
+        return filename;
+    }
+
+    public static String decodeEmail(String input) {
+        byte[] result = BaseEncoding.base64Url().decode(input);
+        return new String(result, StandardCharsets.UTF_8);
     }
 }
