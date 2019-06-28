@@ -1,6 +1,7 @@
 package step_definitions;
 
 import actions.EmailReceiverActions;
+import actions.SendMailActions;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
@@ -52,7 +53,7 @@ public class SendingGmailWithImageSteps extends BaseSteps {
         Assert.assertTrue(emailReceiverActions.userSeeTheRightMail(receiver,
                 this.senderEmail,
                 this.Title,
-                sendMailActions.createMessageBody
+                SendMailActions.createMessageBody
                         (this.senderName, this.receiverName)));
 
     }
