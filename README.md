@@ -29,5 +29,3 @@ The basic user sending and verify email is implemented on this release. The fram
 ## What's next
 1. Implement the getting email from receiver account feature.
 2. Deep check the email content to avoid gliches.
-
-## Demo
