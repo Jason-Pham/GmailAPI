@@ -18,7 +18,10 @@ Currently, there is just one basic test runner.
 2. The test Gmail account credential is on this folder: \Gmail_API_test\tokens\StoredCredential
 
 ## Report
-1. The framework will create the report base on the cucumber features that were run, the steps are automatically generated based on  cucumber scenarios
+1. The framework will create the report base on the cucumber features that were run, the steps are automatically generated based on  cucumber scenarios, the report is located here:
+
+ > \target\Gmail-reports\report.html
+ 
 2. Each step of the report would have one or more images attached to it
 3. When a test is failed, the report will show the error message
 
